@@ -45,7 +45,7 @@ And we have the id of our libc
 
 Now that we have the offsets we just have to query the db for the offsets and extract them from the result:
 
-``python
+```python
 from tinydb import TinyDB, Query
 ```
 
