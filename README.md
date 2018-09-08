@@ -41,7 +41,7 @@ print('[+] libc fingerprint found -> id %s' % libc_id)
 
 And we have the id of our libc
 
-## Get the offsets
+## Get the offsets
 
 Now that we have the offsets we just have to query the db for the offsets and extract them from the result:
 
